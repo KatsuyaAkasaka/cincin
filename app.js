@@ -10,10 +10,13 @@ app.get('/' , (req, res) => {
 
 io.sockets.on('connection', (socket) => {
   socket.on('join', (msg) => {
+    console.log(`[Request] join roomId: ${msg}`)
     socket.join(msg);
   });
-  socket.on('shake', (msg) => {
-    socket.broadcast.to(msg.room_id).emit(msg.time);
+  socket.on('cheer', (msg) => {
+    console.log(`[Request] cheer ${msg}`)
+    socket.broadcast.to(msg.roomId).emit('cheered', msg.time);
+    console.log('[Response] broadcasted')
   });
 });
 
